@@ -1,86 +1,46 @@
+import java.util.Deque;
+import java.util.ArrayDeque;
+
 public class PalindromeCheckerApp {
-    // Node class for singly linked list
-    static class Node {
-        char data;
-        Node next;
+    // PalindromeChecker class encapsulates palindrome logic
+    static class PalindromeChecker {
 
-        Node(char data) {
-            this.data = data;
-            this.next = null;
-        }
-    }
+        // Method to check if a string is a palindrome (ignores case and spaces)
+        public boolean checkPalindrome(String input) {
+            // Normalize string
+            String normalized = input.replaceAll("\\s+", "").toLowerCase();
 
-    // Function to reverse a linked list
-    static Node reverse(Node head) {
-        Node prev = null;
-        Node current = head;
-        while (current != null) {
-            Node nextNode = current.next;
-            current.next = prev;
-            prev = current;
-            current = nextNode;
-        }
-        return prev;
-    }
-
-    // Function to check if linked list is palindrome
-    static boolean isPalindrome(Node head) {
-        if (head == null || head.next == null) return true;
-
-        // Find middle using fast and slow pointers
-        Node slow = head, fast = head;
-        while (fast.next != null && fast.next.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-
-        // Reverse second half
-        Node secondHalf = reverse(slow.next);
-
-        // Compare first and second halves
-        Node firstHalf = head;
-        Node secondHalfCopy = secondHalf; // to restore later if needed
-        boolean palindrome = true;
-        while (secondHalf != null) {
-            if (firstHalf.data != secondHalf.data) {
-                palindrome = false;
-                break;
+            // Use deque for efficient front & rear comparison
+            Deque<Character> deque = new ArrayDeque<>();
+            for (char ch : normalized.toCharArray()) {
+                deque.addLast(ch);
             }
-            firstHalf = firstHalf.next;
-            secondHalf = secondHalf.next;
+
+            while (deque.size() > 1) {
+                if (deque.removeFirst() != deque.removeLast()) {
+                    return false;
+                }
+            }
+            return true;
         }
-
-        // Optional: Restore list (not required here)
-        slow.next = reverse(secondHalfCopy);
-
-        return palindrome;
     }
 
     public static void main(String[] args) {
 
-        // Convert string to linked list
-        String word = "level";
-        Node head = null;
-        Node tail = null;
-        for (int i = 0; i < word.length(); i++) {
-            Node newNode = new Node(word.charAt(i));
-            if (head == null) {
-                head = newNode;
-                tail = newNode;
-            } else {
-                tail.next = newNode;
-                tail = newNode;
-            }
-        }
+        String input = "Madam In Eden Im Adam";
+
+        // Create PalindromeChecker object
+        PalindromeChecker checker = new PalindromeChecker();
 
         // Check palindrome
-        if (isPalindrome(head)) {
-            System.out.println("The word \"" + word + "\" is a Palindrome.");
+        if (checker.checkPalindrome(input)) {
+            System.out.println("The string \"" + input + "\" is a Palindrome (ignoring case and spaces).");
         } else {
-            System.out.println("The word \"" + word + "\" is NOT a Palindrome.");
+            System.out.println("The string \"" + input + "\" is NOT a Palindrome (ignoring case and spaces).");
         }
 
         System.out.println("Program executed successfully.");
     }
 }
+
 
