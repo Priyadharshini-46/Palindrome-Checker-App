@@ -1,30 +1,39 @@
+import java.util.Deque;
+import java.util.ArrayDeque;
+
 public class PalindromeCheckerApp {
-    // Function to check palindrome using two-pointer approach
-    static boolean isPalindrome(String str) {
-        // Normalize: remove spaces and convert to lowercase
-        String normalized = str.replaceAll("\\s+", "").toLowerCase();
+    // PalindromeChecker class encapsulates palindrome logic
+    static class PalindromeChecker {
 
-        int start = 0;
-        int end = normalized.length() - 1;
+        // Method to check if a string is a palindrome (ignores case and spaces)
+        public boolean checkPalindrome(String input) {
+            // Normalize string
+            String normalized = input.replaceAll("\\s+", "").toLowerCase();
 
-        while (start < end) {
-            if (normalized.charAt(start) != normalized.charAt(end)) {
-                return false;
+            // Use deque for efficient front & rear comparison
+            Deque<Character> deque = new ArrayDeque<>();
+            for (char ch : normalized.toCharArray()) {
+                deque.addLast(ch);
             }
-            start++;
-            end--;
-        }
 
-        return true;
+            while (deque.size() > 1) {
+                if (deque.removeFirst() != deque.removeLast()) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
     public static void main(String[] args) {
 
-        String input = "A man a plan a canal Panama";
+        String input = "Madam In Eden Im Adam";
 
-        boolean result = isPalindrome(input);
+        // Create PalindromeChecker object
+        PalindromeChecker checker = new PalindromeChecker();
 
-        if (result) {
+        // Check palindrome
+        if (checker.checkPalindrome(input)) {
             System.out.println("The string \"" + input + "\" is a Palindrome (ignoring case and spaces).");
         } else {
             System.out.println("The string \"" + input + "\" is NOT a Palindrome (ignoring case and spaces).");
@@ -33,4 +42,5 @@ public class PalindromeCheckerApp {
         System.out.println("Program executed successfully.");
     }
 }
+
 
