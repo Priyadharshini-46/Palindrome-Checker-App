@@ -1,31 +1,33 @@
 public class PalindromeCheckerApp {
-    // Recursive function to check palindrome
-    static boolean isPalindrome(String str, int start, int end) {
-        // Base condition: single character or crossed pointers
-        if (start >= end) {
-            return true;
+    // Function to check palindrome using two-pointer approach
+    static boolean isPalindrome(String str) {
+        // Normalize: remove spaces and convert to lowercase
+        String normalized = str.replaceAll("\\s+", "").toLowerCase();
+
+        int start = 0;
+        int end = normalized.length() - 1;
+
+        while (start < end) {
+            if (normalized.charAt(start) != normalized.charAt(end)) {
+                return false;
+            }
+            start++;
+            end--;
         }
 
-        // If characters at start and end are different, not a palindrome
-        if (str.charAt(start) != str.charAt(end)) {
-            return false;
-        }
-
-        // Recursive call: move inward
-        return isPalindrome(str, start + 1, end - 1);
+        return true;
     }
 
     public static void main(String[] args) {
 
-        String word = "racecar";
+        String input = "A man a plan a canal Panama";
 
-        // Call recursive function
-        boolean result = isPalindrome(word, 0, word.length() - 1);
+        boolean result = isPalindrome(input);
 
         if (result) {
-            System.out.println("The word \"" + word + "\" is a Palindrome.");
+            System.out.println("The string \"" + input + "\" is a Palindrome (ignoring case and spaces).");
         } else {
-            System.out.println("The word \"" + word + "\" is NOT a Palindrome.");
+            System.out.println("The string \"" + input + "\" is NOT a Palindrome (ignoring case and spaces).");
         }
 
         System.out.println("Program executed successfully.");
