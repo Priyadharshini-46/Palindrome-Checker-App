@@ -1,26 +1,38 @@
+import java.util.Queue;
+import java.util.LinkedList;
 import java.util.Stack;
 public class PalindromeCheckerApp {
     public static void main(String[] args) {
 
         // Original string
-        String word = "deed";
+        String word = "level";
 
-        // Create a stack to hold characters
+        // Initialize Queue (FIFO) and Stack (LIFO)
+        Queue<Character> queue = new LinkedList<>();
         Stack<Character> stack = new Stack<>();
 
-        // Push each character of the string into the stack
+        // Enqueue and push each character
         for (int i = 0; i < word.length(); i++) {
-            stack.push(word.charAt(i));
+            char ch = word.charAt(i);
+            queue.add(ch);  // enqueue
+            stack.push(ch); // push
         }
 
-        // Pop characters from stack to form reversed string
-        String reversed = "";
-        while (!stack.isEmpty()) {
-            reversed += stack.pop();
+        boolean isPalindrome = true;
+
+        // Compare dequeue vs pop
+        while (!queue.isEmpty() && !stack.isEmpty()) {
+            char fromQueue = queue.remove();  // dequeue
+            char fromStack = stack.pop();     // pop
+
+            if (fromQueue != fromStack) {
+                isPalindrome = false;
+                break;
+            }
         }
 
-        // Check palindrome using equals()
-        if (word.equals(reversed)) {
+        // Display result
+        if (isPalindrome) {
             System.out.println("The word \"" + word + "\" is a Palindrome.");
         } else {
             System.out.println("The word \"" + word + "\" is NOT a Palindrome.");
@@ -29,3 +41,4 @@ public class PalindromeCheckerApp {
         System.out.println("Program executed successfully.");
     }
 }
+
